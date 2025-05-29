@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import GoogleIcon from "@/components/googleIcon";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -60,6 +61,13 @@ const LoginForm = () => {
     );
   };
 
+  const handleGoogleLogin = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard",
+    });
+  };
+
   return (
     <Card>
       <Form {...form}>
@@ -102,17 +110,28 @@ const LoginForm = () => {
           </CardContent>
 
           <CardFooter>
-            <Button
-              disabled={form.formState.isSubmitting}
-              type="submit"
-              className="w-full"
-            >
-              {form.formState.isSubmitting ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                "Login"
-              )}
-            </Button>
+            <div className="w-full space-y-2">
+              <Button
+                disabled={form.formState.isSubmitting}
+                type="submit"
+                className="w-full"
+              >
+                {form.formState.isSubmitting ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  "Login"
+                )}
+              </Button>
+              <Button
+                type="button"
+                className="w-full"
+                variant="outline"
+                onClick={handleGoogleLogin}
+              >
+                <GoogleIcon />
+                Entrar com Google
+              </Button>
+            </div>
           </CardFooter>
         </form>
       </Form>
